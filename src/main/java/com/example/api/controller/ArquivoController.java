@@ -1,10 +1,12 @@
 package com.example.api.controller;
 
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,17 +18,20 @@ import com.example.api.entity.Arquivo;
 import com.example.api.service.ArquivoService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/arquivos")
+@RequestMapping("arquivos")
+@AllArgsConstructor
+@ComponentScan("com.example")
 public class ArquivoController {
     
-    private ArquivoService arquivoService;
+    private ArquivoService service;
 
     @PostMapping("/upload")
     public Arquivo uploadArquivo(@RequestParam("file") MultipartFile file) {
 
-        String nomeArquivo = arquivoService.salvarArquivo(file);
+        String nomeArquivo = service.salvarArquivo(file);
 
         String caminhoArquivo = ServletUriComponentsBuilder.fromCurrentContextPath().path("/arquivos/downloadArquivo").path(nomeArquivo).toUriString();
 
@@ -34,11 +39,11 @@ public class ArquivoController {
     }
 
     @GetMapping("/downloadArquivo/{nomeArquivo}")
-    public ResponseEntity<Resource> downloadArquivo(String nomeArquivo, HttpServletRequest request) {
+    public ResponseEntity<Resource> downloadArquivo(@PathVariable String nomeArquivo, HttpServletRequest request) {
 
-        Resource resource = arquivoService.carregarArquivo(nomeArquivo);
+        Resource resource = service.carregarArquivo(nomeArquivo);
 
-        String contentType = arquivoService.getContentType(request, resource);
+        String contentType = service.getContentType(request, resource);
 
 
         return ResponseEntity.ok()

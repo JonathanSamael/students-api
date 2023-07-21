@@ -2,6 +2,7 @@ package com.example.api.controller;
 
 import java.util.List;
 
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("estudantes")
+@ComponentScan("estudantes")
 @AllArgsConstructor
 
 public class StudentController {

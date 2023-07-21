@@ -1,4 +1,4 @@
-package com.exemplo.api.config;
+package com.example.api.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.exemplo.api.config.ArquivoStorageProperties;
+import com.example.api.config.ArquivoStorageProperties;
 
 import exception.ArquivoNaoEncontradoException;
 import exception.UploadArquivoException;
@@ -71,7 +71,7 @@ public class ArquivoService {
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (Exception e) {
-            log.error("Não foi possível determinar o tipo de arquivo", e);
+            log.info("Não foi possível determinar o tipo de arquivo", e);
         }
 
         if(contentType == null) {
