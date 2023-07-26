@@ -1,6 +1,6 @@
 //Em toda Exceção precisamos extender ela a outra exceção e sobrescrever alguns métodos
 
-package exception;
+package com.example.api.exception;
 
 public class UploadArquivoException extends RuntimeException {
     //método construtor padrão

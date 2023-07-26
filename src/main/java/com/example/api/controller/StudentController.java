@@ -1,8 +1,8 @@
 package com.example.api.controller;
 
-import java.util.List;
-
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,8 +35,11 @@ public class StudentController {
     };
     
     @GetMapping
-    public List<Student> buscarTodosEstudantes() {
-        return estudanteService.buscarTodosEstudantes();
+    public Page<Student> buscarTodosEstudantes(
+        @RequestParam(defaultValue = "0") Integer page,
+        @RequestParam(defaultValue = "4") Integer itemsToPage) {
+        
+        return estudanteService.buscarTodosEstudantes(PageRequest.of(page, itemsToPage));
     };
     
     @PostMapping
@@ -45,7 +49,7 @@ public class StudentController {
     
     @PutMapping("/{id}")
     public ResponseEntity<Student> atualizarEstudante(@PathVariable Long id, @RequestBody Student estudante) {
-        return estudanteService.atualizarEstudante(estudante);
+        return estudanteService.atualizarEstudante(id, estudante);
     };
 
     @DeleteMapping("/{id}")

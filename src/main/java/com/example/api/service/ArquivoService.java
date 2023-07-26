@@ -13,9 +13,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.api.config.ArquivoStorageProperties;
+import com.example.api.exception.ArquivoNaoEncontradoException;
 
-import exception.ArquivoNaoEncontradoException;
-import exception.UploadArquivoException;
+import com.example.api.exception.UploadArquivoException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
