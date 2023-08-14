@@ -1,5 +1,7 @@
 package com.example.api.controller;
 
+import java.util.List;
+
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,7 +31,7 @@ public class StudentController {
     private StudentService estudanteService;
 
     /*Podemos usar esse @GetMapping para falar que sempre que tiver um estudante com um id passando por uma rota, estamos buscando esse id para leitura dos dados.*/
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<Student> buscarEstudantePorId(@PathVariable Long id) {
         return estudanteService.buscarEstudantePorId(id);
     };
@@ -56,4 +58,9 @@ public class StudentController {
     public ResponseEntity<String> removerEstudante(@PathVariable Long id) {
         return estudanteService.removerEstudante(id);
     };
+
+    @GetMapping("/naoAvaliaram")
+    public List<Student> buscarEstudantesQueNaoAvaliaram() {
+        return estudanteService.buscarEstudantesQueNaoAvaliaram();
+    }
 }

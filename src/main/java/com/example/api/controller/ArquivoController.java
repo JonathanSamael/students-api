@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -29,16 +29,16 @@ public class ArquivoController {
     private ArquivoService service;
 
     @PostMapping("/upload")
-    public Arquivo uploadArquivo(@RequestParam("file") MultipartFile file) {
+    public Arquivo uploadArquivo(@RequestPart("file") MultipartFile file) {
 
         String nomeArquivo = service.salvarArquivo(file);
 
-        String caminhoArquivo = ServletUriComponentsBuilder.fromCurrentContextPath().path("/arquivos/downloadArquivo").path(nomeArquivo).toUriString();
+        String caminhoArquivo = ServletUriComponentsBuilder.fromCurrentContextPath().path("/arquivos/download/").path(nomeArquivo).toUriString();
 
         return new Arquivo(nomeArquivo, caminhoArquivo, file.getContentType(),file.getSize());
     }
 
-    @GetMapping("/downloadArquivo/{nomeArquivo}")
+    @GetMapping("/download/{nomeArquivo}")
     public ResponseEntity<Resource> downloadArquivo(@PathVariable String nomeArquivo, HttpServletRequest request) {
 
         Resource resource = service.carregarArquivo(nomeArquivo);
@@ -48,7 +48,7 @@ public class ArquivoController {
 
         return ResponseEntity.ok()
         .contentType(MediaType.parseMediaType(contentType))
-        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; nomeArquivo=\"" + resource.getFilename() + "\"")
         .body(resource);
     }
 }
